@@ -48,11 +48,18 @@ int main() {
 
   const Direction walk[] = {Direction::east, Direction::east, Direction::east,
                             Direction::west};
-  for (Direction d : walk) {
-    current = move(current, d);
-    describe(current);
+    
+    for (Direction d : walk) {
+  Room *next = move(current, d);
+
+  if (next == nullptr) {
+    std::cout << "There is no exit in that direction.\n";
+    continue;
   }
 
+  current = next;
+  describe(current);
+}
   delete hall;
   delete kitchen;
   delete pantry;

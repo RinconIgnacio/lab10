@@ -5,19 +5,18 @@
 
 #include "card.h"
 
+inline constexpr int deck_size = 52;
+
 /// @file deck.h
 /// @brief A deck of 52 cards that owns its memory.
 
-/// The number of cards in a full deck.
-inline constexpr int deck_size = 52;
+// Class invariant:
+// m_cards points to a dynamically allocated array of m_size Cards.
+// m_size is deck_size (52), and m_next stays between 0 and m_size.
 
-// TODO: Write the class invariant here as a comment.
-//  Say what m_cards points to, what m_size is, and what range m_next may have.
-//
-// TODO: Explain here what goes wrong if operator= omits the self-assignment
-//  check (d = d;).
+// Without a self-assignment check, d = d could delete its own cards
+// before copying them, causing invalid memory access.
 
-/// A deck of playing cards stored in a heap array.
 class Deck {
 public:
   /// Make a full, ordered deck: one of each rank in each suit.
@@ -46,10 +45,10 @@ public:
   Card deal();
 
   /// @return true if every card has been dealt
-  bool empty();
+  bool empty() const;
 
   /// @return how many cards are left to deal
-  int remaining();
+  int remaining() const;
 
 private:
   Card *m_cards;

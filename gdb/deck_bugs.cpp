@@ -24,6 +24,13 @@ public:
     }
   }
 
+    RawDeck(const RawDeck &other)
+      : cards_{new Card[other.size_]}, size_{other.size_} {
+    for (int i = 0; i < size_; ++i) {
+      cards_[i] = other.cards_[i];
+    }
+  }
+
   ~RawDeck() { delete[] cards_; }
 
   const Card &at(int index) const { return cards_[index]; }
@@ -40,6 +47,7 @@ void deal_a_hand() {
   Card *hand = new Card[52];
   hand[0] = Card{9, Suit::clubs};
   std::cout << "Top card: " << hand[0].to_string() << "\n";
+  delete[] hand;
 }
 
 // Bug 2
@@ -56,7 +64,6 @@ void clear_a_table() {
   std::cout << "Table card: " << table[0].to_string() << "\n";
   delete[] table;
   std::cout << "Table cleared.\n";
-  delete[] table;
 }
 
 int main(int argc, char *argv[]) {
